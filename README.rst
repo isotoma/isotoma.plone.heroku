@@ -14,7 +14,6 @@ You will require
  * A verified heroku account
  * A willingness to spend $15 a month for 20GB of Postgres (Plone doesnt
    fit in 5mb).
- * A willingness to spend $34 a month per zope instance (first one is free)
 
 
 Starting a project
