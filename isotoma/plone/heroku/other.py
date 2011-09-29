@@ -24,6 +24,10 @@ def run():
     p = optparse.OptionParser()
     opts, args = p.parse_args()
 
+    if not len(args):
+        print "Please give me a script to run"
+        sys.exit(1)
+
     if not os.path.exists(args[0]):
         print args[0], "not found"
         sys.exit(1)

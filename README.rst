@@ -82,9 +82,10 @@ Then follow the prompts. Make sure to answer yes to the GenericSetup question.
 
 You can add your own custom eggs to requirements.txt::
 
-    -e src/myapp.app
+    src/myapp.app
 
-The instructions tell you to use ``file:`` prefixes. They lie. Don't.
+The instructions tell you to use ``file:`` prefixes. They lie. Don't. You can't
+use ``-e`` because heroku's build environment will hardcode a path it shouldn't.
 
 Your ZCML should be found by z3c.autoinclude.
 
