@@ -2,7 +2,7 @@ Plone on Heroku
 ===============
 
 ** WARNING ** Currently Plone contains syntax errors (skins aren't valid
-python, why are we calling then .py!!) and heroku really doesn't like that.
+python, why are we calling them .py!!) and heroku really doesn't like that.
 Currently you can't deploy again after the first successful Plone
 deployment because of it. I have reported this.
 
@@ -44,7 +44,7 @@ introduce.
 At the time of writing it *appears* that only Django Python apps get a database
 automatically. You can get one by adding a folder with an empty settings.py::
 
-    django_bait/
+    bait/
         settings.py
 
 You will need a Procfile so heroku knows how to run a zope instance::
