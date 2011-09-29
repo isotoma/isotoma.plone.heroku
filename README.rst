@@ -194,3 +194,19 @@ And to run against your heroku app::
 The default is to look for a migrate.cfg in the root of the branch you you don't
 have to tell it that - you can just ``./bin/migrate``.
 
+
+Maintaining your app
+--------------------
+
+You can look at your looks with the built in heroku log tool::
+
+    ./bin/heroku logs
+
+You can get an interpreter pointed at your database with the debug command::
+
+    ./bin/heroku run ./bin/debug
+
+You can run a script in your git repo using the run command::
+
+    ./bin/heroku run ./bin/run scripts/myscript.py
+

@@ -30,7 +30,9 @@ setup(
     entry_points = {
         'console_scripts': [
             'plone = isotoma.plone.heroku.runner:run',
-            'migrate = isotoma.plone.heroku.migrate:run'
+            'migrate = isotoma.plone.heroku.migrate:run',
+            'run = isotoma.plone.heroku.other:run',
+            'debug = isotoma.plone.heroku.other:debug',
             ]
          },
     )
