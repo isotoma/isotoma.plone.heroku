@@ -72,13 +72,20 @@ be using any data store.
 Adding your product
 -------------------
 
-FIXME: Test this.
+You can quickly create a new product with ZopeSkel::
+
+    source bin/activate
+    mkdir src && cd src
+    pip install zopeskel
+    zopeskel plone my.app
+
+Then follow the prompts. Make sure to answer yes to the GenericSetup question.
 
 You can add your own custom eggs to requirements.txt::
 
-    file:src/myapp.policy#egg=myapp.policy
-    file:src/myapp.app#egg=myapp.app
-    file:src/myapp.theme#egg=myapp.theme
+    -e src/myapp.app
+
+The instructions tell you to use ``file:`` prefixes. They lie. Don't.
 
 Your ZCML should be found by z3c.autoinclude.
 
@@ -115,23 +122,20 @@ You should now have a working Plonesite!
 Re-rooting your portal
 ----------------------
 
-FIXME: bin/migrate should do this automatically.
-
 By default your actual site won't be at ``/`` it will be at ``/Plone``. We can fix
-that with some old school Zope magic.
+that with some old school Zope magic - note that the ``migrate`` command can set
+this up for you automatically.
 
  * In the ZMI, in ``/Plone`` create a SiteRoot object. Default settings are fine.
 
  * In the ZMI, in ``/`` create a DTMLMethod containing::
 
        <dtml-let stack="REQUEST['TraversalRequestNameStack']">
-         <dtml-if "stack">
-           <dtml-if "stack[-1]=='zmi'">
-             <dtml-call "stack.pop()">
-             <dtml-call "REQUEST.setVirtualRoot('zmi')">
-           <dtml-else>
-             <dtml-call "stack.append('Plone')">
-           </dtml-if>
+         <dtml-if "stack and stack[-1]=='zmi'">
+           <dtml-call "stack.pop()">
+           <dtml-call "REQUEST.setVirtualRoot('zmi')">
+         <dtml-else>
+           <dtml-call "stack.append('Plone')">
          </dtml-if>
        </dtml-let>
 
@@ -152,27 +156,33 @@ and even call random mutators.
 Add a migrate.cfg to the root of your project::
 
     [main]
+    # The id of the Plone Site that is created. Default is Plone.
     site-id = Plone
+
+    # The admin user that was created by mkzopeinstance - for us it will almost
+    # certainly be admin. Default is admin.
     admin-user = admin
+
+    # Whether or not to apply the SiteRoot/AccessRule policy described in the previous
+    # section. Default is False.
+    rootify = True
+
+    # List of products to install on the initial migrate (when ``/Plone`` is created)
     products-initial =
-        Products.CacheSetup
+        Products.foo
+
+    # List of products to install (or reinstall) every time migrate is run
     products =
         Products.LinguagePlone
+
+    # List of GenericSetup profiles to apply the first time migrate is run (when
+    # ``/Plone`` is created)
     profiles-initial =
         myapp.policy:initial
+
+    # List of GenericSetup profiles to apply every time ``bin/migrate`` is run
     profiles =
         myapp.policy:default
-
-    [properties]
-    foo = 1
-    bar = True
-    baz =
-        apple
-        lime
-        lemon
-
-    [mutators]
-    home-page.setTitle = hello world
 
 That one doesn't make any sense, but does show what you can do. To run it locally::
 
@@ -181,4 +191,7 @@ That one doesn't make any sense, but does show what you can do. To run it locall
 And to run against your heroku app::
 
     ~/bin/heroku run ./bin/migrate -c migrate.cfg
+
+The default is to look for a migrate.cfg in the root of the branch you you don't
+have to tell it that - you can just ``./bin/migrate``.
 
