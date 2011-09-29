@@ -12,7 +12,8 @@ You will require
 
  * The heroku tools installed locally and working
  * A verified heroku account
- * A willingness to spend $15 a month for 20GB of Postgres
+ * A willingness to spend $15 a month for 20GB of Postgres (Plone doesnt
+   fit in 5mb).
  * A willingness to spend $34 a month per zope instance (first one is free)
 
 
@@ -33,8 +34,9 @@ The first 2 eggs are virtual packages that install 200+ packages in your
 virtualenv. These are needed because we need to pin the versions of Plone that
 are to be used.
 
-The third egg is one provides ``bin/plone`` and ``bin/migrate``. These helpers
-will dynamically provision their environment as it is required.
+The third egg provides ``bin/plone`` and ``bin/migrate``. These helpers
+will dynamically provision their environment as it is required and instance
+a site / run migrations.
 
 We'll be using RelStorage to get cheap persistent storage. We have to use 1.4.2
 over the 1.5.x series in order to avoid the plpgsql requirement it would
@@ -70,7 +72,18 @@ be using any data store.
 Adding your product
 -------------------
 
-FIXME....
+FIXME: Test this.
+
+You can add your own custom eggs to requirements.txt::
+
+    file:src/myapp.policy#egg=myapp.policy
+    file:src/myapp.app#egg=myapp.app
+    file:src/myapp.theme#egg=myapp.theme
+
+Your ZCML should be found by z3c.autoinclude.
+
+Then you should be able to install your products throught the ZMI or by using the
+migrate script described below.
 
 
 Deploying to heroku
@@ -102,10 +115,10 @@ You should now have a working Plonesite!
 Re-rooting your portal
 ----------------------
 
+FIXME: bin/migrate should do this automatically.
+
 By default your actual site won't be at ``/`` it will be at ``/Plone``. We can fix
 that with some old school Zope magic.
-
-(One day if you use ``bin/migrate`` this will be done automatically).
 
  * In the ZMI, in ``/Plone`` create a SiteRoot object. Default settings are fine.
 
@@ -131,8 +144,6 @@ for ``/zmi/manage`` will be handled by ``/manage``. Success.
 
 The migrate tool
 ----------------
-
-FIXME: This should automatically do the stuff in the previous section.
 
 The migrate script uses the plone setup features of ``isotoma.recipe.plonetools`` to
 automate setup of your site. It can apply profiles, install products, set properties

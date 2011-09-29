@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 version = '0.0.0'
 
 setup(
-    name = 'isotoma.depends.zope_2_13_8',
+    name = 'isotoma.depends.zope2_13_8',
     version = version,
     description = "Running zope in a virtualenv",
     long_description = open("README.rst").read(),
