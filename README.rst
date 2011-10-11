@@ -75,14 +75,14 @@ You can quickly create a new product with ZopeSkel::
 
     source bin/activate
     mkdir src && cd src
-    pip install zopeskel
-    zopeskel plone my.app
+    pip install zopeskel==2.21.2
+    zopeskel -t plone_basic my.app
 
 Then follow the prompts. Make sure to answer yes to the GenericSetup question.
 
 You can add your own custom eggs to requirements.txt::
 
-    src/myapp.app
+    src/my.app
 
 The instructions tell you to use ``file:`` prefixes. They lie. Don't. You can't
 use ``-e`` because heroku's build environment will hardcode a path it shouldn't.
@@ -96,9 +96,28 @@ migrate script described below.
 Deploying to heroku
 -------------------
 
-Make sure all your changes are committed to your Git repo. Then::
+Initialise a git repository (heroku loves git).  In the root of your project::
 
+  git init .
+
+And then create a file called .gitignore with the following contents::
+
+  distribute-0.6.10.tar.gz
+  lib/
+  bin/
+  include/
+  zope/
+  README.txt
+
+Then::
+
+  git add .
+  git commit -m "Initial commit"
     ~/bin/heroku create --stack cedar
+
+This will give you your app name (of the format word-word-9999).  Log on to your heroku account and upgrade the shared database from 5MB to 20GB (for $15 a month).
+And then you can finally deploy::
+
     git push heroku master
 
 Then wait. It should just work, if it doesn't its probably a timeout. It takes
@@ -110,6 +129,7 @@ So edit your requirements::
     isotoma.depends.zope2_13_8
     # isotoma.depends.plone4_1
     isotoma.plone.heroku
+    # src/my.app
 
 Commit and push to heroku.
 
