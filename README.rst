@@ -71,12 +71,12 @@ be using any data store.
 Adding your product
 -------------------
 
-You can quickly create a new product with ZopeSkel::
+You can quickly create a new product with ZopeSkel (version 2.21.2, as the 3.x line is currently broken :D)::
 
     source bin/activate
     mkdir src && cd src
     pip install zopeskel==2.21.2
-    zopeskel -t plone_basic my.app
+    zopeskel plone my.app
 
 Then follow the prompts. Make sure to answer yes to the GenericSetup question.
 
