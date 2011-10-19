@@ -193,7 +193,7 @@ Add a migrate.cfg to the root of your project::
 
     # List of products to install (or reinstall) every time migrate is run
     products =
-        Products.LinguagePlone
+        Products.LinguaPlone
 
     # List of GenericSetup profiles to apply the first time migrate is run (when
     # ``/Plone`` is created)
